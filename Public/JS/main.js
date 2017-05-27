@@ -1,18 +1,85 @@
 // This code creates an object containing the optional responses for the winning choice
 
+/*
+ * You're off to a great start, you definitely have the capacity to quickly jump
+ * to the next level. I'm going to do everything I can to make sure you get there!
+ * So I'm going to really push you.
+ * Pay attention to the details like code formatting - YES it matters that much
+ * Hi quality formatting is like a really slick ad on TV, its the first impression!
+ * and says you care about your code.
+ */
+
+/* 
+ * I'm going to add comments directly to this code and then I'm going to create a new
+ * branch with the code updated.
+ * Start making sure you code structure is tight (whitespace, consistency) 
+ * add spaces after a comma in an array [0, 1, 2] (consistency)
+ * Choose single or double quote not both! (consistency)
+ * To help with this I'm going to add jshint (eslint is for newer javascript es2015) to your project
+ * http://jshint.com/
+ * http://eslint.org/
+ * It helps with code quality by telling you when you have errors or issues
+ * You should always use this as it helps identity a lot of common bugs
+ * and general code quality issues. There are plugins for most editors
+ * so just google jshint and your editor for instance: jshint sublime
+ * for installation.
+ * Either use semicolons or don't (consistency)
+ * 
+ * We can also use a js prettifier which formats the code for consistency
+ * This is one approach: https://medium.com/@brindelle/format-your-javascript-with-prettier-before-committing-177079ec356a
+ * Find others! Sublime has prettifier extensions as well as all the other IDEs
+ * This stuff really matters to programmers be extra vigilent about it.
+ * Its the difference between looking junior and more professional.
+*/
+
 var prize = {
   award: ['diamonds','gold','money'],
   msg: ["You are entitled to all the ", " you can carry."],
   
+  /*
+   * whitespace alignment, var winMsg and the lines below it
+   * add space after function arguments function() {}
+   * why this.msg[1]? and not this.msg[x]?
+   * what happens if x is outside of the bounds of the array???
+   * thats a fatal error. Check to make sure x < prize.length
+   * is x a zero based index?? make sure you're passing in 
+   * either zero based number or 1 based in which case you have
+   * to go (x - 1) for instance
+   * award[x - 1], msg[x - 1]
+   */ 
   giveGift: function(x){
               var winMsg = "";
 
                 winMsg = this.msg[0] + this.award[x] + this.msg[1];
                return winMsg;
   }
-}
+} 
 
-// This sort of pure function captures the winning responses, allowing for future usage
+/* 
+ * This sort of pure function captures the winning responses, allowing for future usage
+ * add space after function arguments function() {}
+ * pass in the prize! That way you aren't relying on a global prize
+ * what happens if you want to switch prizes later? If you pass in the 
+ * the prize to this function then you can change that easily.
+ * The prize should have a common "interface". Meaning any new prize
+ * has the same public properties/methods - this is a contract
+ * and the interface enforces the idea that you can swap in any Prize object
+ * because the interface is the same.
+ * 
+ * Prize Interface (publicly available properties every Prize should have)
+ * prize.award
+ * prize.msg
+ * prize.giveGift
+ * 
+ * announce(prize, x);
+ * 
+ * Now you can pass in any prize and it just works! Maybe depending on the user
+ * They get a different prize object but of-course it has the same interface
+ * Now we aren't using real interfaces liked you'd see in Java but we are using
+ * that principle. We're relying on duck typing (look this up)
+ * assuming all 3 properties are there we can assume our object is a prize
+ * 
+ */
 function announce(x){
   return  prize.giveGift(x);
 }
@@ -20,6 +87,42 @@ function announce(x){
 // -------------------------------------------------------------------------------------
 
 // code below is the initialization of the game. It handles user interactivity
+/*
+ * This is using a huge callback function! Thats a "code smell"
+ * Its likely that function is doing many things. Your function
+ * Should be doing 1 thing well!
+ * Because of this this code is really fragile
+ * It can' be extended easily (extensibility)
+ * Its hard to reason about what it does
+ * It handles instructions
+ * It handles input
+ * It handles game state
+ * So all these things are linked
+ * Start off rely simply and add functions that do 1 thing
+ * 
+ * 
+ * 1 function that takes input from user
+ *   based on user input call next function
+ * 1 function for showing instructions
+ * 1 function for hiding instructions
+ * 1 function to toggle between showing and hiding instructions (optional! not sure you want to)
+ * 1 game state object if you're going to save state, this is debatable if you need to
+ *    var user = {
+ *      guesses: [],
+ *      currentGuess: null,
+ *    }
+ * 1 function to set user state (every guess update state)
+ * 1 function to show answer response
+ * 
+ * 
+ * 
+ * OK I'm going to stop here since most of the issues I see are related to 
+ * really big do all functions. I think what you did was start programming
+ * without first defining all the parts, so you ended up duct taping things together
+ * create really small simple functions and build the app from those
+ * I should be able to clearly see a function for each part.
+ * 
+ */ 
 var beginGame = (function (){
   alert(sayRules());
 
